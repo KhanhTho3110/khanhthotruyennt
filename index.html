@@ -7,36 +7,70 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        .story-card:hover { transform: translateY(-5px); transition: transform 0.3s ease; }
-        .hidden { display: none; }
         .group:hover .group-hover\:scale-110 { transform: scale(1.1); }
+        .hidden { display: none; }
         .line-clamp-1 { overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 1; }
         .line-clamp-2 { overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
-        /* Thêm style cho nội dung truyện chi tiết */
-        #story-detail-container .content-pre-c p { margin-bottom: 1rem; }
     </style>
 </head>
 <body class="bg-gray-50 font-sans">
     
-    <header class="bg-purple-700 shadow-md sticky top-0 z-50 text-white">
+    <header class="bg-white shadow-md sticky top-0 z-50">
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-            <a href="/" id="logo-link" class="flex items-center"><img src="https://nguyettruyen.net/images/logo.png" alt="Nguyệt Truyện" class="h-10"></a>
-            <nav class="hidden md:flex space-x-4 font-semibold">
-                <a href="#" class="hover:text-yellow-300">Truyện hot</a>
+            <a href="/" id="logo-link" class="flex items-center">
+                <img src="https://nguyettruyen.net/images/logo.png" alt="Nguyệt Truyện" class="h-10">
+            </a>
+            <nav class="hidden md:flex space-x-6 font-semibold text-gray-700">
+                <a href="#" class="hover:text-purple-600">Thể Loại</a>
+                <a href="#" class="hover:text-purple-600">Truyện hot</a>
+                <a href="#" class="hover:text-purple-600">Truyện mới</a>
+                <a href="#" class="hover:text-purple-600">Truyện full</a>
             </nav>
+            <div class="flex items-center space-x-2">
+                <a href="#" class="text-gray-700 hover:text-purple-600 font-semibold">Đăng nhập</a>
+                <a href="#" class="bg-purple-600 text-white px-4 py-2 rounded-md font-semibold hover:bg-purple-700">Đăng ký</a>
+            </div>
         </div>
     </header>
 
-    <main class="container mx-auto px-4 py-6">
+    <main class="container mx-auto px-4 py-8">
         <div id="main-content">
+            
+            <section id="featured-story-container" class="mb-12">
+                 <p>Đang tải truyện nổi bật...</p>
+            </section>
+            
             <section class="mb-12">
                 <div class="flex items-center justify-between mb-6">
-                    <h2 class="text-2xl font-bold flex items-center"><i class="fas fa-fire text-red-500 mr-2"></i>Truyện hot</h2>
+                    <h2 class="text-2xl font-bold flex items-center"><i class="fas fa-fire text-red-500 mr-2"></i> Truyện hot</h2>
+                    <a href="#" class="text-purple-600 hover:text-purple-800 text-sm font-semibold">Xem tất cả →</a>
                 </div>
                 <div id="hot-stories-container" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
-                    <p class="col-span-full">Đang tải danh sách truyện, vui lòng chờ...</p>
+                    <p class="col-span-full">Đang tải...</p>
                 </div>
             </section>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+                <section>
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-2xl font-bold flex items-center"><i class="fas fa-book-open text-green-500 mr-2"></i> Truyện mới</h2>
+                        <a href="#" class="text-purple-600 hover:text-purple-800 text-sm font-semibold">Xem tất cả →</a>
+                    </div>
+                    <div id="new-stories-container" class="bg-white rounded-lg shadow-md p-4 grid grid-cols-1 gap-4">
+                        <p>Đang tải...</p>
+                    </div>
+                </section>
+                <section>
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-2xl font-bold flex items-center"><i class="fas fa-star text-yellow-500 mr-2"></i> Đánh giá cao</h2>
+                        <a href="#" class="text-purple-600 hover:text-purple-800 text-sm font-semibold">Xem tất cả →</a>
+                    </div>
+                    <div id="best-rate-container" class="bg-white rounded-lg shadow-md p-4 grid grid-cols-1 gap-4">
+                        <p>Đang tải...</p>
+                    </div>
+                </section>
+            </div>
+
         </div>
 
         <div id="story-detail-container" class="hidden">
@@ -44,120 +78,163 @@
     </main>
 
     <footer class="bg-gray-800 text-white py-10">
-        <div class="container mx-auto text-center"><p>© 2025 Nguyệt Truyện Clone by KhanhTho</p></div>
+        <div class="container mx-auto text-center">
+            <p>© 2025 Nguyệt Truyện Clone by KhanhTho</p>
+        </div>
     </footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // --- CẤU HÌNH ---
             const API_URL = 'https://khanhtho3110-khanhthont.hf.space';
-
-            // --- LẤY CÁC PHẦN TỬ HTML ---
+            
             const mainContent = document.getElementById('main-content');
             const storyDetailContainer = document.getElementById('story-detail-container');
-            const hotStoriesContainer = document.getElementById('hot-stories-container');
-            const logoLink = document.getElementById('logo-link');
+            const featuredContainer = document.getElementById('featured-story-container');
+            const hotContainer = document.getElementById('hot-stories-container');
+            const newContainer = document.getElementById('new-stories-container');
+            const bestRateContainer = document.getElementById('best-rate-container');
 
-            // --- CÁC HÀM TẠO HTML ---
-            function createStoryCardHTML(story) {
-                // Sửa lỗi 'undefined': Lấy slug trực tiếp từ dữ liệu API
-                const slug = story.slug;
-                if (!slug) return ''; // Bỏ qua nếu truyện không có slug
-
+            // --- CÁC HÀM TẠO HTML CHO TỪNG LOẠI LAYOUT ---
+            
+            function createFeaturedStoryHTML(story) {
+                // Lấy slug từ link để tạo URL cho trang của bạn
+                const slug = story.link.split('/').pop();
                 return `
-                    <a href="/truyen/${slug}" 
-                       class="story-link block group" 
-                       data-original-url="${story.link}">
-                        <div class="relative h-64 overflow-hidden rounded-lg shadow-lg">
-                            <img alt="${story.title}" src="${story.image}" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110">
-                            <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-3">
-                                <h4 class="text-white font-semibold line-clamp-2">${story.title}</h4>
+                    <a href="/truyen/${slug}" class="story-link block relative h-[400px] w-full overflow-hidden rounded-xl group" data-original-url="${story.link}">
+                        <img alt="${story.title}" src="${story.image}" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                        <div class="absolute bottom-0 left-0 p-8 text-white">
+                            <h2 class="text-4xl font-bold mb-2">${story.title}</h2>
+                        </div>
+                    </a>
+                `;
+            }
+
+            function createHotStoryCardHTML(story) {
+                const slug = story.slug;
+                if (!slug) return '';
+                return `
+                    <a href="/truyen/${slug}" class="story-link block group" data-original-url="${story.link}">
+                        <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300">
+                            <div class="relative h-64 overflow-hidden">
+                                <img alt="${story.title}" src="${story.image}" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110">
+                                <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-3">
+                                    <h4 class="text-white font-semibold line-clamp-2">${story.title}</h4>
+                                </div>
+                            </div>
+                            <div class="p-3">
+                               <p class="text-sm text-gray-600 truncate">${story.author}</p>
+                               <span class="text-xs text-gray-500">${story.chapters}</span>
                             </div>
                         </div>
                     </a>
                 `;
             }
 
-            function createStoryDetailHTML(storyData) {
-                // Lấy các thẻ thể loại
-                const categoriesHTML = storyData.secondaryCategoryIds.map(id => {
-                     // Bạn có thể tạo một danh sách map id -> tên thể loại nếu muốn
-                    return `<span class="bg-purple-100 text-purple-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded">${storyData.categoryName}</span>`;
-                }).join('');
-
+            function createListStoryRowHTML(story) {
+                 const slug = story.slug;
+                if (!slug) return '';
                 return `
-                    <button id="back-button" class="mb-6 px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700 transition">&larr; Quay lại danh sách</button>
-                    <div class="bg-white rounded-lg shadow-lg p-8">
-                        <div class="flex flex-col md:flex-row gap-8">
-                            <div class="w-full md:w-1/4 flex-shrink-0">
-                                <img src="${storyData.image}" alt="${storyData.title}" class="w-full rounded-lg shadow-md">
+                    <a href="/truyen/${slug}" class="story-link flex bg-white rounded-md overflow-hidden hover:bg-gray-50 transition-colors" data-original-url="${story.link}">
+                        <div class="relative w-20 h-28 flex-shrink-0">
+                            <img alt="${story.title}" src="${story.image}" class="w-full h-full object-cover">
+                        </div>
+                        <div class="flex-1 p-3">
+                            <h3 class="font-semibold text-gray-800 hover:text-purple-600 line-clamp-1">${story.title}</h3>
+                            <div class="flex items-center text-xs text-gray-500 mt-2">
+                                <i class="fas fa-user-edit mr-1"></i>
+                                <span class="line-clamp-1">${story.author}</span>
                             </div>
-                            <div class="w-full md:w-3/4">
-                                <h1 class="text-4xl font-bold mb-2">${storyData.title}</h1>
-                                <p class="text-gray-600 mb-4">Tác giả: <span class="font-semibold text-purple-700">${storyData.author}</span></p>
-                                <div class="flex flex-wrap gap-2 mb-4">${categoriesHTML}</div>
-                                <p class="text-gray-500 mb-2">Số chương: ${storyData.chapters}</p>
-                                <p class="text-gray-500 mb-4">Lượt xem: ${storyData.abbreviateViews}</p>
+                            <div class="flex items-center justify-between text-xs text-gray-500 mt-1">
+                                <span>${story.chapters}</span>
+                                <span class="flex items-center"><i class="fas fa-eye mr-1"></i> ${story.abbreviateViews || 'N/A'}</span>
                             </div>
                         </div>
-                        <div class="mt-8 border-t pt-8">
-                            <h2 class="text-2xl font-semibold mb-4">Giới thiệu</h2>
-                            <div class="prose max-w-none">${storyData.description || 'Chưa có giới thiệu cho truyện này.'}</div>
-                        </div>
-                    </div>
+                    </a>
                 `;
             }
 
-            // --- CÁC HÀM XỬ LÝ LOGIC ---
-            async function fetchAndDisplayStories() {
+            // --- HÀM GỌI API VÀ ĐIỀN DỮ LIỆU ---
+            async function loadHomepageData() {
                 try {
                     const response = await fetch(`${API_URL}/homepage-data`);
-                    if (!response.ok) throw new Error(`Lỗi mạng: ${response.status}`);
+                    if (!response.ok) throw new Error('Network response was not ok');
                     const data = await response.json();
 
+                    // Hiển thị Truyện Nổi Bật (chỉ lấy 1)
+                    if (data.featured && data.featured.length > 0) {
+                        featuredContainer.innerHTML = createFeaturedStoryHTML(data.featured[0]);
+                    } else { featuredContainer.innerHTML = ''; }
+
+                    // Hiển thị Truyện Hot
                     if (data.hot && data.hot.length > 0) {
-                        hotStoriesContainer.innerHTML = data.hot.map(createStoryCardHTML).join('');
-                        addClickListenersToStoryLinks();
-                    } else {
-                        hotStoriesContainer.innerHTML = '<p class="col-span-full">Không có truyện hot nào để hiển thị.</p>';
-                    }
+                        hotContainer.innerHTML = data.hot.map(createHotStoryCardHTML).join('');
+                    } else { hotContainer.innerHTML = '<p class="col-span-full">Không có truyện.</p>'; }
+
+                    // Hiển thị Truyện Mới
+                    if (data.new && data.new.length > 0) {
+                        newContainer.innerHTML = data.new.map(createListStoryRowHTML).join('');
+                    } else { newContainer.innerHTML = '<p>Không có truyện.</p>'; }
+                    
+                    // Hiển thị Đánh giá cao
+                    if (data.best_rate && data.best_rate.length > 0) {
+                        bestRateContainer.innerHTML = data.best_rate.map(createListStoryRowHTML).join('');
+                    } else { bestRateContainer.innerHTML = '<p>Không có truyện.</p>'; }
+
+                    // Gắn sự kiện click cho tất cả các link truyện vừa tạo
+                    addClickListenersToStoryLinks();
+                    
                 } catch (error) {
-                    hotStoriesContainer.innerHTML = `<p class="col-span-full text-red-500">Lỗi khi tải dữ liệu từ API: ${error.message}</p>`;
+                    console.error("Lỗi khi tải dữ liệu trang chủ:", error);
+                    mainContent.innerHTML = `<p class="col-span-full text-red-500 text-center">Không thể tải dữ liệu từ API. Vui lòng kiểm tra lại.</p>`;
                 }
             }
+            
+            // --- HÀM XỬ LÝ CLICK VÀ ROUTING ---
+            
+            function showHomePage() {
+                storyDetailContainer.innerHTML = '';
+                storyDetailContainer.classList.add('hidden');
+                mainContent.classList.remove('hidden');
+                history.pushState({ page: 'home' }, 'Trang chủ', '/');
+            }
 
+            // Hàm này cần được hoàn thiện: cần có endpoint API /story-detail
             async function showStoryDetail(slug, originalUrl) {
                 mainContent.classList.add('hidden');
                 storyDetailContainer.classList.remove('hidden');
                 storyDetailContainer.innerHTML = '<p>Đang tải nội dung truyện, vui lòng chờ...</p>';
-                window.scrollTo(0, 0); // Cuộn lên đầu trang
-                history.pushState({ page: 'detail', slug: slug }, slug, `/truyen/${slug}`);
+                window.scrollTo(0, 0);
+                history.pushState({ page: 'detail', slug }, slug, `/truyen/${slug}`);
                 
                 try {
+                    // Gọi đến endpoint mới để lấy chi tiết truyện
                     const response = await fetch(`${API_URL}/story-detail?story_url=${encodeURIComponent(originalUrl)}`);
-                    if (!response.ok) throw new Error(`API trả về lỗi: ${response.status}`);
+                     if (!response.ok) throw new Error(`API trả về lỗi: ${response.status}`);
                     const result = await response.json();
                     
                     if (result.success && result.data) {
-                        // API trả về thành công, tạo HTML chi tiết truyện
-                        storyDetailContainer.innerHTML = createStoryDetailHTML({
-                            ...result.data,
-                            image: `https://api.nguyettruyen.net/images/thumbnails/${result.data.thumbnail.name}`
-                        });
+                        // Thêm link ảnh đầy đủ vào dữ liệu trả về
+                        const storyData = result.data;
+                        if (storyData.thumbnail && storyData.thumbnail.name) {
+                            storyData.image = `https://api.nguyettruyen.net/images/thumbnails/${storyData.thumbnail.name}`;
+                        }
+                        
+                        // Sử dụng dữ liệu trả về để tạo HTML chi tiết
+                        // (Hàm createStoryDetailHTML cần được tạo ra)
+                        storyDetailContainer.innerHTML = `
+                            <button id="back-button" class="mb-6 px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700 transition">&larr; Quay lại</button>
+                            <h1 class="text-4xl font-bold">${storyData.title}</h1>
+                            <p class="mt-4 text-gray-600">${storyData.description || 'Chưa có giới thiệu.'}</p>
+                            `;
                         document.getElementById('back-button').addEventListener('click', showHomePage);
                     } else {
                         throw new Error(result.detail || 'API không trả về dữ liệu hợp lệ.');
                     }
                 } catch (error) {
-                    storyDetailContainer.innerHTML = `<p class="text-red-500">Lỗi khi tải nội dung truyện: ${error.message}</p>`;
+                    storyDetailContainer.innerHTML = `<p class="text-red-500">Lỗi khi tải nội dung truyện: ${error.message}</p><button id="back-button" class="mt-4 px-4 py-2 bg-purple-600 text-white rounded">&larr; Quay lại</button>`;
+                    document.getElementById('back-button').addEventListener('click', showHomePage);
                 }
-            }
-            
-            function showHomePage() {
-                storyDetailContainer.innerHTML = ''; // Xóa nội dung cũ
-                storyDetailContainer.classList.add('hidden');
-                mainContent.classList.remove('hidden');
-                history.pushState({ page: 'home' }, 'Trang chủ', '/');
             }
 
             function addClickListenersToStoryLinks() {
@@ -171,24 +248,12 @@
                 });
             }
             
-            // Xử lý khi nhấn logo để về trang chủ
-            logoLink.addEventListener('click', (e) => {
-                e.preventDefault();
-                showHomePage();
-            });
+            logoLink.addEventListener('click', (e) => { e.preventDefault(); showHomePage(); });
 
-            // Xử lý nút back/forward của trình duyệt
-            window.addEventListener('popstate', (event) => {
-                if (event.state && event.state.page === 'home' || !event.state) {
-                    showHomePage();
-                } else if (event.state && event.state.page === 'detail') {
-                    // Logic để hiển thị lại trang detail nếu cần, hiện tại cứ về home cho đơn giản
-                    showHomePage();
-                }
-            });
+            window.addEventListener('popstate', (event) => { showHomePage(); });
             
             // --- KHỞI CHẠY ---
-            fetchAndDisplayStories();
+            loadHomepageData();
         });
     </script>
 </body>
